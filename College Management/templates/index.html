@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Management System</title>
+    <style>
+        /* General Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        /* Background GIF */
+        body {
+            background: url('https://i.pinimg.com/originals/93/e2/38/93e23864b37573905439782283a5193d.gif') no-repeat center center fixed;
+            background-size: cover;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        /* Container for Content */
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: white;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.6); /* Semi-transparent overlay */
+        }
+
+        /* Heading */
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            animation: slideInDown 1.5s ease-in-out;
+        }
+
+        /* Links */
+        a {
+            color: #00ffcc;
+            text-decoration: none;
+            font-size: 1.2rem;
+            margin: 0 15px;
+            padding: 10px 20px;
+            border: 2px solid #00ffcc;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            animation: fadeInUp 2s ease-in-out;
+        }
+
+        a:hover {
+            background: #00ffcc;
+            color: #000;
+            transform: scale(1.1);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to College Management System</h1>
+        <div>
+            <a href="/admin_login">Admin Login</a>
+            <a href="/login">User Login</a>
+            <a href="/register">Register</a>
+        </div>
+    </div>
+</body>
+</html>

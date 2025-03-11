@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        /* General Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            background: url('https://i.pinimg.com/originals/18/a4/94/18a4949fc9c8067172d3b96e302e7097.gif') no-repeat center center fixed;
+            background-size: cover;
+            overflow: auto;
+            color: #fff;
+        }
+
+        /* Container for Content */
+        .container {
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent overlay */
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px auto;
+            max-width: 1200px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* Headings */
+        h2, h3 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: slideInDown 1s ease-in-out;
+        }
+
+        /* Forms */
+        form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="file"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: background 0.3s ease;
+        }
+
+        input[type="text"]::placeholder,
+        input[type="date"]::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        select:focus {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #6a11cb;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background: #2575fc;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Courses and Exam Tables */
+        .courses-list, .exam-table {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        .courses-list p {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .courses-list img {
+            margin-left: 10px;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Links */
+        a {
+            color: #6a11cb;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #2575fc;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Admin Dashboard</h2>
+
+        <!-- Add Course Form -->
+        <form action="/add_course" method="POST" enctype="multipart/form-data">
+            <input type="text" name="name" placeholder="Course Name" required>
+            <input type="file" name="image" required>
+            <button type="submit">Add Course</button>
+        </form>
+
+        <!-- Add Fee Form -->
+        <h3>Fees</h3>
+        <form action="{{ url_for('add_fee') }}" method="post">
+            <label for="course_id">Course ID:</label>
+            <input type="text" name="course_id" required>
+            <label for="amount">Fee Amount:</label>
+            <input type="text" name="amount" required>
+            <button type="submit">Add Fee</button>
+        </form>
+
+        <!-- Courses List -->
+        <h3>Courses</h3>
+        <div class="courses-list">
+            {% for course in courses %}
+                <p>{{ course.name }} <img src="{{ course.image }}" width="100"></p>
+            {% endfor %}
+        </div>
+
+        <!-- Add Exam Schedule Form -->
+        <h2>Add Exam Schedule</h2>
+        <form action="{{ url_for('add_exam') }}" method="post">
+            <label for="course_id">Select Course:</label>
+            <select name="course_id" required>
+                {% for course in courses %}
+                    <option value="{{ course.id }}">{{ course.name }}</option>
+                {% endfor %}
+            </select>
+            <label for="exam_date">Exam Date:</label>
+            <input type="date" name="exam_date" required>
+            <button type="submit">Add Exam</button>
+        </form>
+
+        <!-- Exam Schedules Table -->
+        <h2>Exam Schedules</h2>
+        <div class="exam-table">
+            <table border="1">
+                <tr>
+                    <th>Course</th>
+                    <th>Exam Date</th>
+                </tr>
+                {% for exam in exams %}
+                <tr>
+                    <td>{{ exam.course.name }}</td>
+                    <td>{{ exam.exam_date.strftime('%Y-%m-%d') }}</td>
+
+
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <!-- Back to Dashboard Link -->
+        <a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+    </div>
+</body>
+</html>

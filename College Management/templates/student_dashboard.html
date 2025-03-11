@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <style>
+        /* General Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            background: url('https://i.pinimg.com/originals/5f/96/f3/5f96f392749a313e9650f24f0c8652ea.gif') no-repeat center center fixed;
+            background-size: cover;
+            overflow: auto;
+            color: #fff;
+        }
+
+        /* Container for Content */
+        .container {
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent overlay */
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px auto;
+            max-width: 1200px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* Headings */
+        h2, h3 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: slideInDown 1s ease-in-out;
+        }
+
+        /* Courses Section */
+        .courses-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .course-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            width: calc(33.33% - 20px);
+            text-align: center;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        .course-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .course-card button {
+            background: #6a11cb;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .course-card button:hover {
+            background: #2575fc;
+            transform: translateY(-3px);
+        }
+
+        /* Fees and Exam Sections */
+        .fees-list, .exam-list {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        /* Attendance Form */
+        .attendance-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        .attendance-form select, .attendance-form button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: background 0.3s ease;
+        }
+
+        .attendance-form button {
+            background: #6a11cb;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .attendance-form button:hover {
+            background: #2575fc;
+        }
+
+        /* Attendance Records Table */
+        .attendance-table {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .nav-buttons a {
+            background: #6a11cb;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-buttons a:hover {
+            background: #2575fc;
+            transform: translateY(-3px);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Student Dashboard</h2>
+
+        <!-- Courses Section -->
+        <h3>Courses</h3>
+        <div class="courses-list">
+            {% for course in courses %}
+            <div class="course-card">
+                <img src="{{ course.image }}" alt="{{ course.name }}">
+                <p>{{ course.name }}</p>
+                <a href="{{ url_for('book_course', course_id=course.id) }}">
+                    <button>Book</button>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Fees Section -->
+        <h3>Fees</h3>
+        <div class="fees-list">
+            {% for fee in fees %}
+                <p>Course ID: {{ fee.course_id }} - Amount: {{ fee.amount }}</p>
+            {% endfor %}
+        </div>
+
+        <!-- Exam Schedule Section -->
+        <h3>Exam Schedule</h3>
+        <div class="exam-list">
+            {% for exam in exams %}
+                <p>Course ID: {{ exam.course_id }} - Date: {{ exam.exam_date }}</p>
+            {% endfor %}
+        </div>
+
+        <!-- Attendance Form -->
+        <h2>Mark Attendance</h2>
+        <div class="attendance-form">
+            <form action="{{ url_for('mark_attendance') }}" method="post">
+                <label for="course_id">Select Course:</label>
+                <select name="course_id" required>
+                    {% for course in courses %}
+                        <option value="{{ course.id }}">{{ course.name }}</option>
+                    {% endfor %}
+                </select>
+                <input type="hidden" name="student_id" value="{{ session['user_id'] }}">
+                <button type="submit">Submit Attendance</button>
+            </form>
+        </div>
+
+        <!-- Attendance Records Section -->
+        <h2>Attendance Records</h2>
+        <div class="attendance-table">
+            <table>
+                <tr>
+                    <th>Course</th>
+                    <th>Date</th>
+                </tr>
+                {% for record in attendance_records %}
+                <tr>
+                    <td>{{ record.course.name }}</td>
+                    <td>{{ record.date }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="nav-buttons">
+            <a href="{{ url_for('student_dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+</body>
+</html>
